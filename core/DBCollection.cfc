@@ -461,10 +461,12 @@
 	}
 
 	/**
-	* Ensures a "2d" index on a single field. If another 2d index exists on the same collection, this will error
+	* Ensures a geospatial index on a single field.
+	*
+	* @param string type <http://docs.mongodb.org/manual/applications/geospatial-indexes/>
 	*/
-	public array function ensureGeoIndex( field, min="", max="" ){
-		var doc = { "#arguments.field#" = "2d" };
+	public array function ensureGeoIndex( field, min="", max="",type="2dsphere" ){
+		var doc = { "#arguments.field#" = arguments.type };
 		var options = {};
 		if( isNumeric(arguments.min) and isNumeric(arguments.max) ){
 			options = {"min" = arguments.min, "max" = arguments.max};
