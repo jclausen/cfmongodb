@@ -55,7 +55,7 @@
 	function newOperationalDBObject(){
 		return dboFactory.newInstance(variables.operationTyper);
 	}
-	
+
 	/**
 	 * Designate a value to always be evaluated as string
 	 **/
@@ -141,8 +141,7 @@
 				var key = structKeyList(kv);
 				var value = kv[key];
 			}
-
-			dbObject.append( key, value );
+			dbObject[key]=value;
 		}
 		return dbObject;
 	}
