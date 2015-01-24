@@ -195,7 +195,9 @@ function addArrayCriteria( string element, array val, string type ){
   @sort A struct or string representing how the items are to be sorted
 */
 function find( string keys="", numeric skip=0, numeric limit=0, any sort="#structNew()#" ){
-	return  dbCollection.find( criteria=get(), keys=keys, skip=skip, limit=limit, sort=sort );
+	//sanitize
+	var criteria=deSerializeJSON(serializeJSON(get()));
+	return  dbCollection.find( criteria=criteria, keys=keys, skip=skip, limit=limit, sort=sort );
 }
 
 function count(){
