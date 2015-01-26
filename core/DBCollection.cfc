@@ -1,6 +1,9 @@
 <cfcomponent accessors="true" output="false">
-
 	<cfproperty name="mongoUtil">
+	/**
+	* Allow access to our underlying collection in case someone downstream needs to do ninja stuff
+	**/
+	<cfproperty name="collection" default="">
 
 <cfscript>
 	variables.collectionName = "";
@@ -8,7 +11,6 @@
 
 	//these are the underlying java objects
 	variables.mongoDB = "";
-	variables.collection = "";
 
 	/**
 	* Not intended to be invoked directly. Always fetch DBCollection objects via mongo.getDBCollection( collectionName )
@@ -487,6 +489,14 @@
 	*/
 	public array function dropIndexes(){
 		collection.dropIndexes();
+		return getIndexes();
+	}
+
+	/**
+	* Drops an index by name
+	**/
+	public array function dropIndex(required name){
+		collection.dropIndex(arguments.name);
 		return getIndexes();
 	}
 
