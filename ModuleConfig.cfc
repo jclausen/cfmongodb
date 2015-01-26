@@ -61,7 +61,7 @@ component accessors=true{
 				hosts=this.configStruct.MongoDB.hosts,
 				dbName=this.configStruct.MongoDB.db,
 				mongoFactory=this.getWireBox().getInstance('CFMongoJavaLoader')
-			);
+			).asSingleton();
 
 		var MongoConfig = this.getWirebox().getInstance('MongoDbConfig');
 
