@@ -68,7 +68,7 @@
 	  byID = collection.findById( url.personId );
 	*/
 	function findById( id ){
-		return toCF( collection.findOne( mongoUtil.newIDCriteriaObject( id ) ) );
+		return toCF( collection.findOne(id) );
 	}
 
 	/**
