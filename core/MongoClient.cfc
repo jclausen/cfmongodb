@@ -28,15 +28,15 @@ component output="false" accessors="true" extends="Mongo" {
 		
 		if(structKeyExists(MongoConfig,'auth') and len(MongoConfig.auth.username) and len(MongoConfig.auth.password)){
 			var MongoCredential = mongofactory.getObject('com.mongodb.MongoCredential');
-			var MongoCredentials = [];
-			var MongoServers = [];
+			var MongoCredentials = createObject('java','java.util.ArrayList');
+			var MongoServers = createObject('java','java.util.ArrayList');
 			 for (var mongoServer in MongoConfig.servers){
 			 	MongoServers.add(mongoServer);
 			 	//our credentials need to be authenticated against the admin db (in most cases)
-			 	var credential = MongoCredential.createScramSha1Credential(MongoConfig.auth.username,structKeyExists(MongoConfig.auth,'db')?MongoConfig.auth.db:'admin',MongoConfig.auth.password.toCharArray());
+			 	var credential = MongoCredential.createScramSha1Credential(MongoConfig.auth.username,structKeyExists(MongoConfig.auth,'db')?javacast('string',MongoConfig.auth.db):javacast('string','admin'),MongoConfig.auth.password.toCharArray());
 			 	MongoCredentials.add(credential);
 			 }
-			 variables.mongo.init(variables.mongoConfig.getServers(),MongoCredentials,getMongoConfig().getMongoClientOptions() );
+			 variables.mongo.init(MongoServers ,MongoCredentials, getMongoConfig().getMongoClientOptions() );
 			 
 		} else {
 			variables.mongo.init( variables.mongoConfig.getServers(), getMongoConfig().getMongoClientOptions() );
