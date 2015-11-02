@@ -54,6 +54,7 @@ component accessors=true{
 		this.configStruct = controller.getConfigSettings();
 		// parse parent settings
 		parseParentSettings();
+			
 		// Map Config
 		binder.map( "MongoDBConfig" )
 			.to( "cfmongodb.core.MongoConfig" )
@@ -72,13 +73,6 @@ component accessors=true{
 			.asSingleton();
 	}
 
-	/**
-	* Fired when the module is unloaded
-	*/
-	function onUnload(){
-		// safely destroy connection
-		wirebox.getInstance( "MongoClient@cfMongoDB" ).close();
-	}
 
 	/**
 	* Prepare settings and returns true if using i18n else false.
