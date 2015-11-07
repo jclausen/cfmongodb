@@ -45,12 +45,7 @@ component accessors=true{
 		// Configure
 		binder.map( "CFMongoJavaLoader" )
 			.to("cfmongodb.core.JavaloaderFactory");
-	}
 
-	/**
-	* Fired when the module is activated.
-	*/
-	function onLoad(){
 		this.configStruct = controller.getConfigSettings();
 		// parse parent settings
 		parseParentSettings();
@@ -58,20 +53,22 @@ component accessors=true{
 		// Map Config
 		binder.map( "MongoDBConfig" )
 			.to( "cfmongodb.core.MongoConfig" )
-			.initWith(
-				hosts=this.configStruct.MongoDB.hosts,
-				dbName=this.configStruct.MongoDB.db,
-				mongoFactory=this.getWireBox().getInstance('CFMongoJavaLoader')
-			).asSingleton();
-
-		var MongoConfig = this.getWirebox().getInstance('MongoDbConfig');
+			.initArg(name="MongoFactory",ref="CFMongoJavaLoader")
+			.initArg(name="hosts",value=this.configStruct.MongoDB.hosts)
+			.initArg(name="dbName",value=this.configStruct.MongoDB.db)
+			.asSingleton();
 
 		// Map our MongoDB Client using per-environment settings.
 		binder.map( "MongoClient@cfMongoDB" )
 			.to( "cfmongodb.core.MongoClient" )
-			.initWith(MongoConfig=MongoConfig)
+			.initArg(name='MongoConfig',ref="MongoDBConfig")
 			.asSingleton();
 	}
+
+	/**
+	* Fired when the module is activated.
+	*/
+	function onLoad(){}
 
 
 	/**
