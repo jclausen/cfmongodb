@@ -33,7 +33,7 @@ component output="false" accessors="true" extends="Mongo" {
 			 for (var mongoServer in MongoConfig.servers){
 			 	MongoServers.add(mongoServer);
 			 	//our credentials need to be authenticated against the admin db (in most cases)
-			 	var credential = MongoCredential.createScramSha1Credential(MongoConfig.auth.username,structKeyExists(MongoConfig.auth,'db')?javacast('string',MongoConfig.auth.db):javacast('string','admin'),MongoConfig.auth.password.toCharArray());
+			 	var credential = MongoCredential.createCredential(MongoConfig.auth.username,structKeyExists(MongoConfig.auth,'db')?javacast('string',MongoConfig.auth.db):javacast('string','admin'),MongoConfig.auth.password.toCharArray());
 			 	MongoCredentials.add(credential);
 			 }
 			 variables.mongo.init(MongoServers ,MongoCredentials, getMongoConfig().getMongoClientOptions() );
